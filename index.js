@@ -24,6 +24,19 @@ app.get('/api/hello', function (req, res) {
   res.json({ greeting: 'hello API' });
 });
 
+// --- REQUEST HEADER PARSER MICROSERVICE ENDPOINT ---
+app.get('/api/whoami', function (req, res) {
+  let ipaddress = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+  let language = req.headers['accept-language'];
+  let software = req.headers['user-agent'];
+
+  res.json({
+    ipaddress: ipaddress,
+    language: language,
+    software: software
+  });
+});
+
 // listen for requests :)
 var listener = app.listen(process.env.PORT || 3000, function () {
   console.log('Your app is listening on port ' + listener.address().port);
